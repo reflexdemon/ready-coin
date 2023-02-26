@@ -18,9 +18,9 @@ Create a Spring Boot service that exposes a REST endpoint that allows a user to 
 Example of a possible response of the API for a $2 bill
 ```json
 {
-"0.25": 2,
-"0.10": 5,
-"0.05": 20
+    "0.25": 2,
+    "0.10": 5,
+    "0.05": 20
 }
 
 ```
