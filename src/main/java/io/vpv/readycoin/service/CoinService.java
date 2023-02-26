@@ -15,9 +15,13 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class CoinService {
-    private static final Double[] DENOMINATIONS = {0.01, 0.05, 0.10, 0.25};
+    // Accepted bills are (1, 2, 5, 10, 20, 50, 100), nothing else
     private static final Integer[] BILLS = {1, 2, 5, 10, 20, 50, 100};
 
+    // Available coins are (0.01, 0.05, 0.10, 0.25)
+    private static final Double[] DENOMINATIONS = {0.01, 0.05, 0.10, 0.25};
+
+    // Start with 100 coins of each type
     private static final Map<Double, Integer> KIOSK_CHANGE = Stream.of(DENOMINATIONS)
                 .collect(toConcurrentMap(i -> i, i -> 100)); // Got Concurrent Map for Thread safety
 
@@ -26,7 +30,13 @@ public class CoinService {
                 .stream()
                 .forEach(k -> KIOSK_CHANGE.put(k, 100));
     }
-    public Map<Double, Integer> findDenominations(Integer amount) {
+
+    /**
+     * Utilizing the least amount of coins
+     * @param amount
+     * @return
+     */
+    public Map<Double, Integer> findDenominationsForGivenBill(Integer amount) {
 
         if (!Stream.of(BILLS).anyMatch( b -> b == amount)) {
             throw new UserInputError("Enter valid Bill amount.");
