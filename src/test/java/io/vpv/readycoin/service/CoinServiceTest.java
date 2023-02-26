@@ -1,6 +1,8 @@
 package io.vpv.readycoin.service;
 
 import io.vpv.readycoin.ReadyCoinApplication;
+import io.vpv.readycoin.exception.ServiceException;
+import io.vpv.readycoin.exception.UserInputError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 class CoinServiceTest extends ReadyCoinApplication {
@@ -19,11 +22,11 @@ class CoinServiceTest extends ReadyCoinApplication {
 
     @BeforeEach
     void setUp() {
-        coinService.init(); // Reset the coin balance
+        coinService.reset(); // Reset the coin balance
     }
 
     @Test
-    void findDenominationsFor10() {
+    void emptyCoinBalanceAllHappyPath() {
         Map<Double, Integer> step1 = coinService.findDenominations(10);
         assertEquals(40, step1.get(0.25), "Expect 40 $0.25 returned for $10");
         Map<Double, Integer> step2 = coinService.findDenominations(20);
@@ -35,5 +38,16 @@ class CoinServiceTest extends ReadyCoinApplication {
         assertEquals(50, step3.get(0.10), "Expect 50 $0.10 returned for $5");
         assertEquals(100, step3.get(0.05), "Expect 50 $0.10 returned for $5");
 
+    }
+
+    @Test
+    void checkForServiceExceptionForInsufficentCoins() {
+        emptyCoinBalanceAllHappyPath();
+        assertThrows(ServiceException.class, () -> coinService.findDenominations(10));
+    }
+
+    @Test
+    void checkForUserInputErrorWithInvalidInput() {
+        assertThrows(UserInputError.class, () -> coinService.findDenominations(11));
     }
 }

@@ -18,17 +18,13 @@ public class CoinService {
     private static final Double[] DENOMINATIONS = {0.01, 0.05, 0.10, 0.25};
     private static final Integer[] BILLS = {1, 2, 5, 10, 20, 50, 100};
 
-    private static Map<Double, Integer> KIOSK_CHANGE;
-
-    public CoinService() {
-        init();
-    }
-
-    public synchronized void init() { // synchronized for thread safety
-        if (null == KIOSK_CHANGE) {
-            KIOSK_CHANGE = Stream.of(DENOMINATIONS)
+    private static final Map<Double, Integer> KIOSK_CHANGE = Stream.of(DENOMINATIONS)
                 .collect(toConcurrentMap(i -> i, i -> 100)); // Got Concurrent Map for Thread safety
-        }
+
+    public synchronized void reset() { // synchronized for thread safety
+        KIOSK_CHANGE.keySet()
+                .stream()
+                .forEach(k -> KIOSK_CHANGE.put(k, 100));
     }
     public Map<Double, Integer> findDenominations(Integer amount) {
 
