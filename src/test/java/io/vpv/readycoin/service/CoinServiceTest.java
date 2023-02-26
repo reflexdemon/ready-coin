@@ -41,7 +41,7 @@ class CoinServiceTest extends ReadyCoinApplication {
     }
 
     @Test
-    void checkForServiceExceptionForInsufficentCoins() {
+    void checkForServiceExceptionForInsufficientCoins() {
         emptyCoinBalanceAllHappyPath();
         assertThrows(ServiceException.class, () -> coinService.findDenominationsForGivenBill(10));
     }
