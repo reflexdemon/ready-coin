@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 ),
                 license = @License(
                         name = "MIT Licence",
-                        url = "https://github.com/thombergs/code-examples/blob/master/LICENSE")),
+                        url = "https://github.com/reflexdemon/ready-coin/blob/main/LICENSE")),
         servers = @Server(url = "http://localhost:8080")
 )
 public class APIDocConfig {
