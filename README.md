@@ -1,4 +1,5 @@
 # Ready Coin
+[![Java CI with Gradle](https://github.com/reflexdemon/ready-coin/actions/workflows/gradle.yml/badge.svg)](https://github.com/reflexdemon/ready-coin/actions/workflows/gradle.yml)
 ## Problem
 Create a Spring Boot service that exposes a REST endpoint that allows a user to request change for a given bill. The service should assume there is a finite number of coins, and it should update that number on each request
 
